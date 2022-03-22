@@ -11,9 +11,11 @@ contract ERC20Token {
 
 contract MyContract{
     address payable wallet;
+    address public token;
 
-    constructor(address payable _wallet) public{
+    constructor(address payable _wallet, address _token) public{
         wallet = _wallet;
+        token = _token;
     }
 
     function() external payable {
@@ -21,6 +23,8 @@ contract MyContract{
     }
 
     function buyToken() public payable {
+        ERC20Token _token = ERC20Token(address(token));
+        _token.mint();
         wallet.transfer(msg.value);
     }
 }
